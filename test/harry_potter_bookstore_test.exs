@@ -29,6 +29,9 @@ defmodule HarryPotterBookstoreTest do
 
     shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
     assert HarryPotterBookstore.two_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 8
   end
 
   test "calculate 5% discount for two books" do
