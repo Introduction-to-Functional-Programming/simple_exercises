@@ -12,7 +12,7 @@ defmodule SimpleExercises do
       :world
 
   """
-  def hello do
+  def hello() do
     :world
   end
 end
