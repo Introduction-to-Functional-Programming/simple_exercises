@@ -51,31 +51,37 @@ defmodule HarryPotterBookstore do
   returns how many copies of two different books were bought.
   """
   def two_copies(shopping_cart) do
-    two_copies(shopping_cart, 0)
+    n_copies(shopping_cart, 0, 2)
   end
 
-  defp two_copies(shopping_cart, total) do
+  defp n_copies(shopping_cart, total, number_items) do
     shopping_cart
     |> Enum.sort_by(fn {_, units} -> units end, :desc)
     |> Enum.filter(fn {_book, units} -> units > 0 end)
-    |> two_copies_remove(total, 2)
+    |> n_copies_remove(total, number_items)
   end
 
-  defp two_copies_remove(shopping_cart, total, number_items) when length(shopping_cart) >= 2 do
+  defp n_copies_remove(shopping_cart, total, number_items)
+       when length(shopping_cart) >= number_items do
     {first_n_elements, rest} = Enum.split(shopping_cart, number_items)
 
-    two_copies(
+    n_copies(
       subtract_quantity_by_one(first_n_elements) ++ rest,
-      total + number_items
+      total + number_items,
+      number_items
     )
   end
 
-  defp two_copies_remove(_shopping_cart, total, _) do
+  defp n_copies_remove(_shopping_cart, total, _) do
     total
   end
 
   defp subtract_quantity_by_one(shopping_cart_items) do
     shopping_cart_items
     |> Enum.map(fn {book, quantity} -> {book, quantity - 1} end)
+  end
+
+  def three_copies(shopping_cart) do
+    n_copies(shopping_cart, 0, 3)
   end
 end

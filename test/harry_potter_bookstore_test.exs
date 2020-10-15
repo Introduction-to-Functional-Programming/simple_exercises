@@ -56,4 +56,36 @@ defmodule HarryPotterBookstoreTest do
     shopping_cart = [{1, 2}, {2, 2}, {3, 3}]
     assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 6 * 8 * 0.95 + 8
   end
+
+  test "count number of three copies of different books in a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 3
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}, {5, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 9
+  end
+
+  # test "calculate 10% discount for three books" do
+  #   # shopping_cart = [{1, 1}]
+  #   # assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 8
+
+  #   # shopping_cart = [{1, 1}, {2, 1}]
+  #   # assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 16 * 0.95
+
+  #   shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+  #   assert HarryPotterBookstore.discount_three_copies(shopping_cart, 8) == 3 * 8 * 0.90
+
+  # end
 end
