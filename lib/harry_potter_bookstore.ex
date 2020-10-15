@@ -84,4 +84,18 @@ defmodule HarryPotterBookstore do
   def three_copies(shopping_cart) do
     n_copies(shopping_cart, 0, 3)
   end
+
+  @doc """
+  Given:
+  - a shopping cart
+  - the price of a book
+  - the number of books for a given discount
+  - the percent (0-100) of discount
+  Returns the price with that discount.
+  """
+  @spec discount_n_copies([any], number, any, number) :: float
+  def discount_n_copies(shopping_cart, price, n, percent) do
+    n_copies(shopping_cart, 0, n) * price * (1 - percent / 100) +
+      (total_books_bought(shopping_cart) - n_copies(shopping_cart, 0, n)) * price
+  end
 end
