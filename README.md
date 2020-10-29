@@ -1,21 +1,10 @@
 # SimpleExercises
 
-**TODO: Add description**
+Exercises for the 
+[CAES005 - Introduction to Functional Programming](https://github.com/adolfont/caes005-introduction-to-functional-programming) course.
 
-## Installation
+Each student should create a folder named after his/her GitHUb account.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `simple_exercises` to your list of dependencies in `mix.exs`:
+For each exercise, a folder.
 
-```elixir
-def deps do
-  [
-    {:simple_exercises, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/simple_exercises](https://hexdocs.pm/simple_exercises).
-
+Do a Pull Request after you finish you exercise.
