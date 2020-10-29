@@ -17,4 +17,26 @@ defmodule CashmachineTest do
   test "200 dollars gives me two 100 dollar bills" do
     assert CashMachine.withdraw(200) == %{100 => 2}
   end
+
+  test "Tests using Enum.reduduce_while" do
+    assert CashMachine.withdraw_using_reduce_while(200) == %{100 => 2}
+
+    assert CashMachine.withdraw_using_reduce_while(187) == %{
+             2 => 1,
+             5 => 1,
+             10 => 1,
+             20 => 1,
+             50 => 1,
+             100 => 1
+           }
+
+    assert CashMachine.withdraw_using_reduce_while(289) == %{
+             2 => 2,
+             5 => 1,
+             10 => 1,
+             20 => 1,
+             50 => 1,
+             100 => 2
+           }
+  end
 end

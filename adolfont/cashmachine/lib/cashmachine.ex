@@ -27,13 +27,21 @@ defmodule CashMachine do
     )
   end
 
-  def withdraw_reduce(amount) do
-    amount
-    |> count_notes(@bank_notes, %{})
-    |> Enum.sort(fn {_k1, val1}, {_k2, val2} -> val1 > val2 end)
-    |> Enum.reduce_while([], fn x, acc ->
-      qtde_note = elem(x, 1)
-      if qtde_note > 0, do: {:cont, [x | acc]}, else: {:halt, acc}
-    end)
+  def withdraw_using_reduce_while(amount) do
+    @bank_notes
+    |> Enum.reduce_while(
+      {[], amount},
+      fn note, {list, current_amount} ->
+        if current_amount == 0,
+          do: {:halt, {list, current_amount}},
+          else:
+            {:cont,
+             {[{note, div(current_amount, note)} | list],
+              current_amount - note * div(current_amount, note)}}
+      end
+    )
+    |> Tuple.to_list()
+    |> hd()
+    |> Map.new()
   end
 end
