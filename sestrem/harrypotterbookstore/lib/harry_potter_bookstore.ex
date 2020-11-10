@@ -26,27 +26,6 @@ defmodule HarryPotterBookstore do
   def _desconto(4) do 0.8 end
   def _desconto(5) do 0.75 end
 
-  def full_price_second_task_v2(shopping_cart, price) do
-    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
-
-    livros = Enum.map(shopping_cart, fn {livro, quantidade} ->%{:livro => livro, :quantidade => quantidade} end)
-    IO.inspect livros
-    #livros_unicos = Enum.uniq(livros.livro)
-
-    #livros_unicos = Enum.uniq_by([livros], fn {x, _} -> x end)
-    livros_unicos = Enum.into(livros, MapSet.new())
-    IO.puts "livros únicos"
-    IO.inspect livros_unicos
-    #IO.inspect livros_unicos
-
-
-
-
-    #qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
-
-    #full_price * _desconto(qtde_livros_unicos)
-  end
-
   @spec full_price_third_task(any, number) :: number
   def full_price_third_task(shopping_cart, price) do
     full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
