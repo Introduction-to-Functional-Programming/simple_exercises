@@ -1,0 +1,79 @@
+defmodule HarryPotterBookstore do
+  def books_bought(shopping_cart) do
+    Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+  end
+
+  def full_price(shopping_cart, price) do
+    (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+  end
+
+  def full_price_second_task(shopping_cart, price) do
+    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+
+    livros = Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+    qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
+
+    if qtde_livros_unicos == 2 do
+      full_price * 0.95
+    else
+      full_price
+    end
+  end
+
+  def full_price_third_task(shopping_cart, price) do
+    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+
+    livros = Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+    qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
+
+    if qtde_livros_unicos ==3  do
+      full_price * 0.9
+    else
+      full_price
+    end
+  end
+
+
+  def full_price_fourth_task(shopping_cart, price) do
+    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+
+    livros = Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+    qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
+
+    if qtde_livros_unicos == 4  do
+      full_price * 0.8
+    else
+      full_price
+    end
+  end
+
+  def full_price_fifth_task(shopping_cart, price) do
+    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+
+    livros = Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+    qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
+
+    if qtde_livros_unicos == 5  do
+      full_price * 0.75
+    else
+      full_price
+    end
+  end
+
+  def full_price_all_rules(shopping_cart, price) do
+    full_price = (Enum.map(shopping_cart, fn {_livro, quantidade} -> quantidade end) |> Enum.sum()) * price
+
+    livros = Enum.map(shopping_cart, fn {livro, _quantidade} -> livro end)
+    qtde_livros_unicos = Enum.uniq(livros) |> Enum.count()
+
+    case qtde_livros_unicos do
+      2 -> full_price * 0.95
+      3 -> full_price * 0.9
+      4 -> full_price * 0.8
+      5 -> full_price * 0.75
+      _ -> full_price
+    end
+  end
+
+
+end
