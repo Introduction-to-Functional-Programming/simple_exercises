@@ -1,0 +1,10 @@
+{application,erl_exercism,
+             [{description,"An helper library for exercisms erlang exercises"},
+              {vsn,"0.1.2"},
+              {registered,[]},
+              {applications,[kernel,stdlib]},
+              {env,[]},
+              {modules,[exercism_parse_transform]},
+              {maintainers,["Norbert Melzer"]},
+              {licenses,["MIT"]},
+              {links,[{"Github","https://github.com/NobbZ/erl_exercism"}]}]}.

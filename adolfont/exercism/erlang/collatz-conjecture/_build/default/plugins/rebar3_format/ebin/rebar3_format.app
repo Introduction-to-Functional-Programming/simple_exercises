@@ -1,0 +1,11 @@
+{application,rebar3_format,
+             [{description,"A rebar plugin for code formatting"},
+              {vsn,"0.5.0"},
+              {registered,[]},
+              {applications,[kernel,stdlib,katana_code]},
+              {env,[]},
+              {modules,[default_formatter,erlfmt_formatter,otp_formatter,
+                        rebar3_ast_formatter,rebar3_format,rebar3_format_prv,
+                        rebar3_formatter,sr_formatter]},
+              {licenses,["MIT"]},
+              {links,[{"github","https://github.com/AdRoll/rebar3_format"}]}]}.
