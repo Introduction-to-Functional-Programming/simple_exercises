@@ -29,8 +29,8 @@ Para exemplificar a diferença da utilização de Enum e Stream, vamos criar um 
     
 | Execução | Resultado |
 |--|--|
-| timer.tc(stream_10M) | {**0**, [2, 3, 4, 5, 6]} |
-| timer.tc(enum_10M) | {**15141000**, [2, 3, 4, 5, 6]} |
+| :timer.tc(stream_10M) | {**0**, [2, 3, 4, 5, 6]} |
+| :timer.tc(enum_10M) | {**15141000**, [2, 3, 4, 5, 6]} |
 
 A execução utilizando *Enum* levou +- 15 segundos enquanto que a com *Stream* foi praticamente instantânea. Isto ocorreu por que o *Enum* criou o map com os 10 milhões de itens para então passá-lo como parâmetro para o *Enum.take(5)*. Diferentemente, o *Stream* criou um map com apenas 5 elementos, o suficiente para a execução de *Enum.take(5)*.
 
