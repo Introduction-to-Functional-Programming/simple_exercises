@@ -1,0 +1,189 @@
+defmodule HarryPotterBookstoreTest do
+  use ExUnit.Case
+
+  test "obtains the list of books bought" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.books_bought(shopping_cart) == [1]
+
+    assert HarryPotterBookstore.books_bought([{1, 1}, {7, 3}, {5, 5}, {2, 4}]) ==
+             [1, 7, 5, 2]
+  end
+
+  test "calculate the full price of a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.full_price(shopping_cart, 8) == 8
+
+    shopping_cart = [{1, 2}]
+    assert HarryPotterBookstore.full_price(shopping_cart, 8) == 16
+
+    shopping_cart = [{1, 2}, {2, 3}]
+    assert HarryPotterBookstore.full_price(shopping_cart, 8) == 40
+  end
+
+  test "count number of two copies of different books in a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 2
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 8
+
+    shopping_cart = [{1, 2}, {2, 2}, {3, 3}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 2}, {2, 2}, {3, 3}, {4, 4}]
+    assert HarryPotterBookstore.two_copies(shopping_cart) == 10
+  end
+
+  test "calculate 5% discount for two books" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 8
+
+    shopping_cart = [{1, 1}, {2, 1}]
+    assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 16 * 0.95
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
+    assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 8 + 6 * 8 * 0.95
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 8 * 8 * 0.95
+
+    shopping_cart = [{1, 2}, {2, 2}, {3, 3}]
+    assert HarryPotterBookstore.discount_two_copies(shopping_cart, 8) == 6 * 8 * 0.95 + 8
+  end
+
+  test "count number of three copies of different books in a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 3
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 6
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}, {5, 1}]
+    assert HarryPotterBookstore.three_copies(shopping_cart) == 9
+  end
+
+  test "calculate 10% discount for three books" do
+    price = 8
+    percent = 10
+    n = 3
+
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 8
+
+    shopping_cart = [{1, 1}, {2, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 2 * 8
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 3 * 8 * 0.9
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             6 * 8 * 0.9 + 8
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             6 * 8 * 0.9 + 2 * 8
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}, {5, 2}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             9 * 8 * 0.9 + 1 * 8
+  end
+
+  test "count number of four copies of different books in a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.four_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.four_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.four_copies(shopping_cart) == 4
+
+    shopping_cart = [{1, 4}, {2, 2}, {3, 2}, {4, 2}, {5, 3}]
+    assert HarryPotterBookstore.four_copies(shopping_cart) == 12
+  end
+
+  test "calculate 20% discount for four books" do
+    price = 8
+    percent = 20
+    n = 4
+
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 8
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 3 * 8
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             4 * 8 * 0.8 + 4 * 8
+
+    shopping_cart = [{1, 4}, {2, 2}, {3, 2}, {4, 2}, {5, 3}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             12 * 8 * 0.8 + 1 * 8
+  end
+
+  test "count number of five copies of different books in a shopping cart" do
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.five_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.five_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+    assert HarryPotterBookstore.five_copies(shopping_cart) == 0
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}, {5, 1}]
+    assert HarryPotterBookstore.five_copies(shopping_cart) == 5
+
+    shopping_cart = [{1, 4}, {2, 2}, {3, 2}, {4, 2}, {5, 3}]
+    assert HarryPotterBookstore.five_copies(shopping_cart) == 10
+  end
+
+  test "calculate 25% discount for five books" do
+    price = 8
+    percent = 25
+    n = 5
+
+    shopping_cart = [{1, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 8
+
+    shopping_cart = [{1, 1}, {2, 1}, {3, 1}]
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) == 3 * 8
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             8 * 8
+
+    shopping_cart = [{1, 3}, {2, 2}, {3, 2}, {4, 1}, {5, 1}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+            5 * 8 * 0.75 + 4 * 8
+
+    shopping_cart = [{1, 4}, {2, 2}, {3, 2}, {4, 2}, {5, 3}]
+
+    assert HarryPotterBookstore.discount_n_copies(shopping_cart, price, n, percent) ==
+             10 * 8 * 0.75 + 3 * 8
+  end
+end
