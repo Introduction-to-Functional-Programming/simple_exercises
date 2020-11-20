@@ -2,26 +2,34 @@ defmodule Primes do
 
   def biggest_prime(numbers) do
     numbers
-    |> biggest_prime([])
+    |> Enum.join()
+    |> biggest_prime(Enum.count(numbers))
   end
-  def biggest_prime([], acc) do
-    acc
-    |> clean()
-    |> Stream.filter(&is_prime?/1)
+
+  def biggest_prime(numbers, acc) do
+    numbers
+    |> slices(acc)
+    |> check(numbers, acc)
+  end
+
+  def check(slices, numbers, acc) do
+    slices
+    |> Enum.filter(&is_prime?/1)
+    |> primes(numbers, acc)
+  end
+
+  def primes([], numbers, acc) do
+    numbers
+    |> biggest_prime(acc-1)
+  end
+  def primes(primes, _numbers, _acc) do
+    primes
+    |> IO.inspect()
+    |> Enum.map(&String.to_integer/1)
     |> Enum.max()
   end
-  def biggest_prime(numbers, acc) do
-    acc =
-      [ acc | numbers
-        |> Stream.unfold(fn [h | t] -> {{h, t}, t} end)
-        |> Enum.take(length(numbers))
-      ]
-      |> List.flatten()
 
-    next = List.delete_at(numbers, -1)
-    biggest_prime(next, acc)
-  end
-
+  def is_prime?(n) when is_binary(n), do: is_prime?(String.to_integer(n))
   def is_prime?(n) when n in [2, 3], do: true
   def is_prime?(n) when n <= 9973 do
     Enum.to_list(2..floor(:math.sqrt(n)))
@@ -33,15 +41,10 @@ defmodule Primes do
   def calc([_h | t], n), do: calc(t, n)
   def calc([], _n), do: true
 
-  def clean(numbers) do
-    numbers
-    |> Stream.map(
-      &Tuple.to_list(&1)
-      |> List.flatten
-      |> Enum.join()
-      |> String.to_integer()
-    )
-    |> Enum.uniq()
+  def slices(_, size) when size <= 0, do: []
+  def slices(s, size) do
+    max = String.length(s)
+    for iterate <- 0..max, iterate+size <= max, do: String.slice(s, iterate, size)
   end
 
 end
