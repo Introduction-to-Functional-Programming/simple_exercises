@@ -1,18 +1,9 @@
 defmodule Primes do
-  @moduledoc """
-  Documentation for `Primes`.
-  """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Primes.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def is_prime?(n) when n in [2, 3], do: true
+  def is_prime?(n) do
+    2..floor(:math.sqrt(n))
+    |> Enum.all?(&(rem(n, &1) != 0))
   end
+
 end
