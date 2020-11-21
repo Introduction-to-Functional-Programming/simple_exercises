@@ -1,9 +1,11 @@
 defmodule Primes do
 
+  @max_n 4
+
   def biggest_prime(numbers) do
     numbers
     |> Enum.join()
-    |> biggest_prime(Enum.count(numbers))
+    |> biggest_prime(max_n(numbers))
   end
 
   def biggest_prime(numbers, acc) do
@@ -24,7 +26,6 @@ defmodule Primes do
   end
   def primes(primes, _numbers, _acc) do
     primes
-    |> IO.inspect()
     |> Enum.map(&String.to_integer/1)
     |> Enum.max()
   end
@@ -46,5 +47,8 @@ defmodule Primes do
     max = String.length(s)
     for iterate <- 0..max, iterate+size <= max, do: String.slice(s, iterate, size)
   end
+
+  def max_n(numbers) when length(numbers) < @max_n, do: length(numbers)
+  def max_n(_), do: @max_n
 
 end
