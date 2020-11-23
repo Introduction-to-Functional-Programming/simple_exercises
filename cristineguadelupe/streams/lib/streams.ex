@@ -15,7 +15,7 @@ defmodule Streams do
 
   def factorial(0), do: 1
 
-  def factorial(n) do
+  def factorial(n) when n > 0 do
     Stream.unfold({1, 2}, fn {last, next} -> {last, {next * last, next + 1}} end)
     |> Enum.take(n)
     |> List.last()
