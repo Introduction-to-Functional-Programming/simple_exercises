@@ -15,13 +15,24 @@ defmodule PrimesTest do
     refute Primes.is_prime?(85)
   end
 
+  test "Return if a string that represents a number is a prime number" do
+    assert Primes.is_prime?("653")
+    assert Primes.is_prime?("3")
+
+    assert_raise ArgumentError, fn ->
+      Primes.is_prime?("A")
+    end
+  end
+
   test "Return the biggest prime number from a given list" do
-    assert Primes.biggest_prime([4,4,4,4,4]) == :error
-    assert Primes.biggest_prime([1,2,2,2,2]) == 2
-    assert Primes.biggest_prime([3,1,4,1,5]) == 41
-    assert Primes.biggest_prime([5,9,2,6,5]) == 59
-    assert Primes.biggest_prime([2,6,5,3,5]) == 653
-    assert Primes.biggest_prime([7,9,3,2,3]) == 9323
-    assert Primes.biggest_prime([1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6]) == 9323
+    assert Primes.biggest_prime([4, 4, 4, 4, 4]) == :error
+    assert Primes.biggest_prime([1, 2, 2, 2, 2]) == 2
+    assert Primes.biggest_prime([3, 1, 4, 1, 5]) == 41
+    assert Primes.biggest_prime([5, 9, 2, 6, 5]) == 59
+    assert Primes.biggest_prime([2, 6, 5, 3, 5]) == 653
+    assert Primes.biggest_prime([7, 9, 3, 2, 3]) == 9323
+
+    assert Primes.biggest_prime([1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6]) ==
+             9323
   end
 end
