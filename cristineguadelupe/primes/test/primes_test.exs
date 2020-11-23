@@ -16,6 +16,7 @@ defmodule PrimesTest do
   end
 
   test "Return the biggest prime number from a given list" do
+    assert Primes.biggest_prime([4,4,4,4,4]) == :error
     assert Primes.biggest_prime([1,2,2,2,2]) == 2
     assert Primes.biggest_prime([3,1,4,1,5]) == 41
     assert Primes.biggest_prime([5,9,2,6,5]) == 59
