@@ -17,10 +17,19 @@ defmodule StreamsTest do
   end
 
   test "returns the n factorial" do
-    assert Streams.factorial(0) == 1
-    assert Streams.factorial(1) == 1
-    assert Streams.factorial(5) == 120
-    assert Streams.factorial(6) == 720
-    assert Streams.factorial(10) == 3_628_800
+    assert Streams.factorial_of(0) == 1
+    assert Streams.factorial_of(1) == 1
+    assert Streams.factorial_of(5) == 120
+    assert Streams.factorial_of(6) == 720
+    assert Streams.factorial_of(10) == 3_628_800
   end
+
+  test "returns a sequence from 0! to n!" do
+    assert Streams.factorial_sequence(0) == [1]
+    assert Streams.factorial_sequence(1) == [1, 1]
+    assert Streams.factorial_sequence(5) == [1, 1, 2, 6, 24, 120]
+    assert Streams.factorial_sequence(6) == [1, 1, 2, 6, 24, 120, 720]
+    assert Streams.factorial_sequence(10) == [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+  end
+
 end
