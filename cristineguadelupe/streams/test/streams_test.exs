@@ -23,5 +23,4 @@ defmodule StreamsTest do
     assert Streams.factorial(6) == 720
     assert Streams.factorial(10) == 3_628_800
   end
-
 end
