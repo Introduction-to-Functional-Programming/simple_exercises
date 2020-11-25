@@ -29,7 +29,20 @@ defmodule StreamsTest do
     assert Streams.factorial_sequence(1) == [1, 1]
     assert Streams.factorial_sequence(5) == [1, 1, 2, 6, 24, 120]
     assert Streams.factorial_sequence(6) == [1, 1, 2, 6, 24, 120, 720]
-    assert Streams.factorial_sequence(10) == [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+
+    assert Streams.factorial_sequence(10) == [
+             1,
+             1,
+             2,
+             6,
+             24,
+             120,
+             720,
+             5040,
+             40320,
+             362_880,
+             3_628_800
+           ]
   end
 
   test "returns the nth tribonacci term" do
@@ -47,5 +60,4 @@ defmodule StreamsTest do
     assert Streams.tribonacci_sequence(5) == [0, 1, 1, 2, 4]
     assert Streams.tribonacci_sequence(13) == [0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504]
   end
-
 end

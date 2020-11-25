@@ -13,7 +13,6 @@ defmodule Streams do
     Stream.unfold({0, 1}, fn {last, next} -> {last, {next, last + next}} end)
   end
 
-
   def factorial_of(n) do
     factorial_generator()
     |> Enum.at(n)
@@ -21,7 +20,7 @@ defmodule Streams do
 
   def factorial_sequence(n) do
     factorial_generator()
-    |> Enum.take(n+1)
+    |> Enum.take(n + 1)
   end
 
   defp factorial_generator() do
@@ -33,13 +32,12 @@ defmodule Streams do
     |> List.last()
   end
 
-  def tribonacci_sequence(n) do
+  def tribonacci_sequence(n) when n > 0 do
     tribonacci_generator()
     |> Enum.take(n)
   end
 
   def tribonacci_generator() do
-    Stream.unfold({0, 1, 1}, fn {a, b, c} -> {a, {b, c, a+b+c}} end)
+    Stream.unfold({0, 1, 1}, fn {a, b, c} -> {a, {b, c, a + b + c}} end)
   end
-
 end
