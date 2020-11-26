@@ -1,16 +1,21 @@
 defmodule PrimesPi do
 
+  def biggest_sequence(number) when is_binary(number) do
+    number
+    |> prepare_combinations()
+  end
+
   def biggest_sequence(number) do
     number
     |> Enum.join()
-    # |> String.slice(2..-1)
+    |> prepare_combinations()
   end
 
   def prepare_combinations(number) do
     number
     |> String.graphemes()
     |> Stream.unfold(fn n -> {Enum.take(n, 4), tl(n)} end)
-    |> Enum.take(20)
+    |> Enum.take(String.length(number))
     |> Enum.map(&generate_combinations/1)
     |> List.flatten()
   end
