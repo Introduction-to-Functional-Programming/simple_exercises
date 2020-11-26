@@ -26,6 +26,26 @@ defmodule PrimesPi do
     |> Enum.filter(&is_prime?/1)
   end
 
+  def all_primes_ordered(number) do
+    number
+    |> String.graphemes()
+    |> Stream.unfold(fn n -> {Enum.take(n, 4), tl(n)} end)
+    |> Enum.take(20)
+    |> Enum.map(&combinations/1)
+    |> List.flatten()
+  end
+
+  def combinations(number) do
+    number
+    |> Enum.reverse()
+    |> Stream.unfold(fn n -> {Enum.take(n, length(n)), tl(n)} end)
+    |> Enum.take(length(number))
+    |> Enum.reverse()
+    |> Enum.map(&Enum.reverse/1)
+    |> Enum.map(&Enum.join/1)
+    |> all_primes()
+  end
+
   def is_prime?(n) when is_binary(n), do: is_prime?(String.to_integer(n))
   def is_prime?(n) when n in [2, 3], do: true
   def is_prime?(n) when n <= 9973 do
