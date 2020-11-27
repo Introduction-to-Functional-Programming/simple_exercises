@@ -6,8 +6,11 @@ defmodule PrimesPi do
     |> Enum.with_index()
     |> remove_dups([])
     |> clear(all_primes(number))
-    |> String.myers_difference(number)
+    |> String.reverse()
+    |> String.myers_difference(String.reverse(number))
     |> Keyword.get_values(:eq)
+    |> Enum.map(&String.reverse/1)
+    |> Enum.reverse()
     |> Enum.max_by(&String.length/1)
   end
 
