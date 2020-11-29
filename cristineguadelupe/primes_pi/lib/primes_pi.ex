@@ -17,26 +17,18 @@ defmodule PrimesPi do
     |> find_biggest_sequence()
   end
 
-  def get_all_primes(slices) do
-    slices
-    |> Enum.map(&slice_to_combinations/1)
-    |> Enum.map(&filter_primes/1)
-    |> List.flatten()
-  end
-
-  # For test purposes only
-  def all_primes(number) do
-    number
-    |> as_string()
-    |> number_to_slices()
-    |> get_all_primes()
-  end
-
   def number_to_slices(number) do
     number
     |> String.graphemes()
     |> Stream.unfold(fn n -> {Enum.take(n, 4), tl(n)} end)
     |> Enum.take(String.length(number))
+  end
+
+  def get_all_primes(slices) do
+    slices
+    |> Enum.map(&slice_to_combinations/1)
+    |> Enum.map(&filter_primes/1)
+    |> List.flatten()
   end
 
   def slice_to_combinations(slice) do
@@ -104,39 +96,48 @@ defmodule PrimesPi do
     |> Enum.max_by(&String.length/1)
   end
 
-  def is_prime?(n) when is_binary(n), do: is_prime?(String.to_integer(n))
-  def is_prime?(n) when n in [2, 3], do: true
-  def is_prime?(n) when n <= 9973 do
+  defp is_prime?(n) when is_binary(n), do: is_prime?(String.to_integer(n))
+  defp is_prime?(n) when n in [2, 3], do: true
+  defp is_prime?(n) when n <= 9973 do
     Enum.to_list(2..floor(:math.sqrt(n)))
     |> calc(n)
   end
-  def is_prime?(_n), do: false
+  defp is_prime?(_n), do: false
 
-  def calc([h | _t], n) when rem(n, h) == 0, do: false
-  def calc([_h | t], n), do: calc(t, n)
-  def calc([], _n), do: true
+  defp calc([h | _t], n) when rem(n, h) == 0, do: false
+  defp calc([_h | t], n), do: calc(t, n)
+  defp calc([], _n), do: true
 
-  def as_string(number) when is_binary(number), do: number
-  def as_string(number), do: Enum.join(number)
+  defp as_string(number) when is_binary(number), do: number
+  defp as_string(number), do: Enum.join(number)
 
-  def adjust_indexes(indexes, index, _adjust) when index <= 1, do: indexes
-  def adjust_indexes(indexes, index, adjust) do
+  defp adjust_indexes(indexes, index, _adjust) when index <= 1, do: indexes
+  defp adjust_indexes(indexes, index, adjust) do
     indexes
     |> Enum.map(&(&1-adjust))
     |> Enum.map(&(&1+index))
   end
 
-  def special_case([a, b, c | _rest] = list, acc) do
+  defp special_case([a, b, c | _rest] = list, acc) do
     last = String.graphemes(a) |> List.last()
     current = b
     next = String.graphemes(c) |> List.first()
     acc = [special_case?(last, current, next) | acc]
     special_case(tl(list), acc)
   end
-  def special_case(_, acc), do: [false | acc] |> Enum.reverse() |> (&([false | &1])).()
+  defp special_case(_, acc), do: [false | acc] |> Enum.reverse() |> (&([false | &1])).()
 
-  def special_case?(a, b, c) do
+  defp special_case?(a, b, c) do
     Enum.join([a, c]) == b
+  end
+
+
+  # For test purposes only
+  def all_primes(number) do
+    number
+    |> as_string()
+    |> number_to_slices()
+    |> get_all_primes()
   end
 
 end
