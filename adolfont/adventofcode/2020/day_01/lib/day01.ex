@@ -9,18 +9,10 @@ defmodule Day01 do
   end
 
   defp encontra_dois_valores_cuja_soma_eh(lista_numeros, valor_soma) do
-    [primeiro, segundo] = do_encontra_dois_valores_cuja_soma_eh(lista_numeros, valor_soma)
-    primeiro * segundo
-  end
-
-  defp do_encontra_dois_valores_cuja_soma_eh(lista_numeros, valor_soma) do
-    for x <- lista_numeros, y <- lista_numeros do
-      if x + y == valor_soma do
-        [x, y]
-      end
+    for x <- lista_numeros, y <- lista_numeros, x != y, x + y == valor_soma do
+      x * y
     end
-    |> Enum.reject(&is_nil/1)
-    |> hd()
+    |> List.first()
   end
 
   defp converte_em_lista_numeros(lista_strings) do
@@ -35,19 +27,15 @@ defmodule Day01 do
   end
 
   defp encontra_tres_valores_cuja_soma_eh(lista_numeros, valor_soma) do
-    [primeiro, segundo, terceiro] =
-      do_encontra_tres_valores_cuja_soma_eh(lista_numeros, valor_soma)
-
-    primeiro * segundo * terceiro
-  end
-
-  defp do_encontra_tres_valores_cuja_soma_eh(lista_numeros, valor_soma) do
-    for x <- lista_numeros, y <- lista_numeros, z <- lista_numeros do
-      if x + y + z == valor_soma do
-        [x, y, z]
-      end
+    for x <- lista_numeros,
+        y <- lista_numeros,
+        z <- lista_numeros,
+        x != y,
+        x != z,
+        y != z,
+        x + y + z == valor_soma do
+      x * y * z
     end
-    |> Enum.reject(&is_nil/1)
-    |> hd()
+    |> List.first()
   end
 end
