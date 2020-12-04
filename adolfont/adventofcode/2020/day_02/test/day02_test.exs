@@ -28,4 +28,16 @@ defmodule Day02Test do
 
     assert valid_passwords_amount == 564
   end
+
+  test "Reads the input and counts how many are valid passwords according to Task 2" do
+    {:ok, all_lines} = File.read("input.txt")
+
+    line_list = all_lines |> String.split("\n", trim: true)
+
+    valid_passwords_amount =
+      line_list
+      |> Enum.count(&Day02.process_rule_task_2/1)
+
+    assert valid_passwords_amount == 325
+  end
 end
