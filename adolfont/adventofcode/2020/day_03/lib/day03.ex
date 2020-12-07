@@ -3,17 +3,17 @@ defmodule Day03 do
   Advent of Code 2020 - Day 3 - Read description at https://adventofcode.com/2020/day/3
   """
 
-  def task_1(input, right, down) do
-    list_of_lines = process_input_task_1(input)
-
-    do_task_1(list_of_lines, right, down, 0, 1)
+  def task(input, right, down) do
+    input
+    |> process_input_task
+    |> do_task(right, down, 0, 1)
   end
 
-  defp do_task_1(list, _right, down, counter, _current_x) when length(list) <= down do
+  defp do_task(list, _right, down, counter, _current_x) when length(list) <= down do
     counter
   end
 
-  defp do_task_1(list_of_lines, right, down, counter, current_x) do
+  defp do_task(list_of_lines, right, down, counter, current_x) do
     next = Enum.drop(list_of_lines, down)
 
     char =
@@ -24,7 +24,7 @@ defmodule Day03 do
 
     result = if char == "#", do: 1, else: 0
 
-    do_task_1(next, right, down, counter + result, current_x + right)
+    do_task(next, right, down, counter + result, current_x + right)
   end
 
   defp circularStringAt(string, position) do
@@ -41,7 +41,7 @@ defmodule Day03 do
     Enum.at(array, line)
   end
 
-  def process_input_task_1(input) do
+  def process_input_task(input) do
     input
     |> String.trim()
     |> String.split("\n")
