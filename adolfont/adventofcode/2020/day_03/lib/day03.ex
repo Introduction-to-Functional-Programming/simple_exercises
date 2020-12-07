@@ -1,6 +1,6 @@
 defmodule Day03 do
   @moduledoc """
-  Advent of Code 2020 - Day 3 - Read descrption at https://adventofcode.com/2020/day/3
+  Advent of Code 2020 - Day 3 - Read description at https://adventofcode.com/2020/day/3
   """
 
   def task_1(input, right, down) do
