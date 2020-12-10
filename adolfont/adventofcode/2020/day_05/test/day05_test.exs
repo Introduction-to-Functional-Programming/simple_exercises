@@ -23,4 +23,9 @@ defmodule Day05Test do
   test "Task 1" do
     assert Day05.find_max_seat("input.txt") == 888
   end
+
+  test "Task 2 - find my seat" do
+    assert Day05.find_my_seat("input.txt") == 522
+    assert Day05.find_my_seat_v1("input.txt") == 522
+  end
 end
