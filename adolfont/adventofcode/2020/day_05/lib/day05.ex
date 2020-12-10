@@ -25,9 +25,55 @@ defmodule Day05 do
   end
 
   def find_max_seat(filename) do
-    File.read!(filename)
+    filename
+    |> find_all_seats()
+    |> Enum.max()
+  end
+
+  defp find_all_seats(filename) do
+    filename
+    |> File.read!()
     |> String.split("\n", trim: true)
     |> Enum.map(&convert_to_seat_id/1)
-    |> Enum.max()
+  end
+
+  def find_my_seat(filename) do
+    filename
+    |> find_all_seats()
+    |> do_find_my_seat()
+  end
+
+  def find_my_seat_v1(filename) do
+    filename
+    |> find_all_seats()
+    |> do_find_my_seat_v1()
+  end
+
+  def do_find_my_seat(seat_list) do
+    sorted_list = seat_list
+    max = Enum.max(sorted_list)
+    min = Enum.min(sorted_list)
+
+    min..max
+    |> Enum.filter(fn x -> not (x in sorted_list) end)
+    |> hd()
+  end
+
+  def do_find_my_seat_v1(seat_list) do
+    sorted_list = seat_list |> Enum.sort()
+
+    find_my_seat_on_sorted_list(sorted_list)
+  end
+
+  defp find_my_seat_on_sorted_list([i]) do
+    i
+  end
+
+  defp find_my_seat_on_sorted_list([i, j | tail]) when j == i + 1 do
+    find_my_seat_on_sorted_list([j | tail])
+  end
+
+  defp find_my_seat_on_sorted_list([i | _tail]) do
+    i + 1
   end
 end
