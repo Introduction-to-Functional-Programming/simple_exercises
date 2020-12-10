@@ -50,19 +50,18 @@ defmodule Day05 do
   end
 
   def do_find_my_seat(seat_list) do
-    sorted_list = seat_list
-    max = Enum.max(sorted_list)
-    min = Enum.min(sorted_list)
+    min = Enum.min(seat_list)
+    max = Enum.max(seat_list)
 
     min..max
-    |> Enum.filter(fn x -> not (x in sorted_list) end)
+    |> Enum.filter(fn x -> not (x in seat_list) end)
     |> hd()
   end
 
   def do_find_my_seat_v1(seat_list) do
-    sorted_list = seat_list |> Enum.sort()
-
-    find_my_seat_on_sorted_list(sorted_list)
+    seat_list
+    |> Enum.sort()
+    |> find_my_seat_on_sorted_list()
   end
 
   defp find_my_seat_on_sorted_list([i]) do
