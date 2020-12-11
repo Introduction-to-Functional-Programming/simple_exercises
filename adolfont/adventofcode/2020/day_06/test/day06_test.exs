@@ -45,4 +45,32 @@ defmodule Day06Test do
 
     assert Day06.get_yes_answers(a_plane) == 7128
   end
+
+  test "Count yes answers in a plane for everyone in a group (Task 2)" do
+    a_plane = """
+    abc
+
+    a
+    b
+    c
+
+    ab
+    ac
+
+    a
+    a
+    a
+    a
+
+    b
+    """
+
+    assert Day06.get_yes_answers_for_everyone_in_a_group(a_plane) == 6
+  end
+
+  test "Count yes answers in a plane for everyone in  my input file (Task 2)" do
+    a_plane = File.read!("input.txt")
+
+    assert Day06.get_yes_answers_for_everyone_in_a_group(a_plane) == 3640
+  end
 end
