@@ -4,6 +4,22 @@ defmodule Day07Test do
 
   # READ THIS SOLUTION AND OTHERS
 
+  # Initial Plan:
+  #  Each line contains a rule
+  # Each rule:
+  # <color as two words> contain
+  # [no other bags.
+  # |
+  # comma-separated list of "<number> <color as two words> bags" with
+  # dot in the end.
+  # ]
+  # create:
+  # {color_1, n} -> color_2 or {color_1, n, color_2}
+  # meaning that
+  # n color_1 bags can be in a coloe_2 bag
+
+  # than from color_x, find transitively the other colors
+
   test "parse rules" do
     rule_1 = "faded blue bags contain no other bags."
 
@@ -29,6 +45,22 @@ defmodule Day07Test do
              ]
   end
 
+  test "Process a set of rules" do
+    rules = """
+    light red bags contain 1 bright white bag, 2 muted yellow bags.
+    dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+    bright white bags contain 1 shiny gold bag.
+    """
+
+    assert process_set_of_rules(rules) == [
+             {"bright white", 1, "light red"},
+             {"muted yellow", 2, "light red"},
+             {"bright white", 3, "dark orange"},
+             {"muted yellow", 4, "dark orange"},
+             {"shiny gold", 1, "bright white"}
+           ]
+  end
+
   test "Day 7 first test" do
     rules = """
     light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -42,21 +74,6 @@ defmodule Day07Test do
     dotted black bags contain no other bags.
     """
 
-    #  Each line contains a rule
-    # Each rule:
-    # <color as two words> contain
-    # [no other bags.
-    # |
-    # comma-separated list of "<number> <color as two words> bags" with
-    # dot in the end.
-    # ]
-    # create:
-    # {color_1, n} -> color_2 or {color_1, n, color_2}
-    # meaning that
-    # n color_1 bags can be in a coloe_2 bag
-
-    # than from color_x, find transitively the other colors
-
-    assert Day07.can_contain("shiny gold") == 4
+    assert Day07.can_contain("shiny gold", rules) == 4
   end
 end

@@ -31,7 +31,22 @@ defmodule Day07 do
     Enum.join([first, second], " ")
   end
 
-  def can_contain("shiny gold") do
-    4
+
+  def process_set_of_rules(rules) do
+    rules
+    |> String.split("\n", trim: true)
+    |> Enum.map(&parse_rule/1)
+    |> List.flatten()
+  end
+
+  def can_contain(color, rules) do
+    do_can_contain(color, process_set_of_rules(rules). 0)
+  end
+
+  defp do_can_contain(color, [], total) do
+    total
+  end
+  defp do_can_contain(color, [head_rule | tail_rules], total) do
+    total + 
   end
 end
