@@ -40,6 +40,7 @@ defmodule Day07 do
 
   def can_contain(color, rules) do
     do_can_contain(color, process_set_of_rules(rules), 0, [])
+    |> Enum.map(fn {x, _y} -> x end)
     |> Enum.uniq()
     |> Enum.sort()
   end
@@ -55,11 +56,35 @@ defmodule Day07 do
       do_can_contain(color, rules, current_position + 1, total)
   end
 
-  defp can_contain_recursively(color, {color, _number, container_color}, rules) do
-    [container_color] ++ do_can_contain(container_color, rules, 0, [])
+  defp can_contain_recursively(color, {color, number, container_color}, rules) do
+    [{container_color, number}] ++ do_can_contain(container_color, rules, 0, [])
   end
 
   defp can_contain_recursively(_color, _head_rule, _tail_rules) do
     []
+  end
+
+  def must_contain(color, rules) do
+    rules
+    |> process_set_of_rules()
+    |> do_must_contain({color, 1}, 0)
+  end
+
+  defp do_must_contain(rules, {color, _number}, total) do
+    rules
+    |> Enum.filter(fn {_contained, _number, rule_color} -> color == rule_color end)
+    |> Enum.map(fn {contained, number, _} -> {contained, number} end)
+    |> recursively_find_number_of_bags(rules, total)
+  end
+
+  defp recursively_find_number_of_bags([], _rules, total) do
+    total
+  end
+
+  defp recursively_find_number_of_bags([head | tail], rules, total) do
+    {color, number} = head
+
+    number + number * do_must_contain(rules, {color, 1}, 0) +
+      recursively_find_number_of_bags(tail, rules, total)
   end
 end
