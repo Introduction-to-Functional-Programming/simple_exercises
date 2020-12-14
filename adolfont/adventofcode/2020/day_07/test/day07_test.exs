@@ -2,6 +2,8 @@ defmodule Day07Test do
   import Day07
   use ExUnit.Case
 
+  # READ THIS SOLUTION AND OTHERS
+
   test "parse rules" do
     rule_1 = "faded blue bags contain no other bags."
 
