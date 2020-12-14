@@ -21,7 +21,7 @@ erl_crash.dump
 
 # Ignore package tarball (built via "mix hex.build").
 day_07-*.tar
-
+input.txt
 
 # Temporary files for e.g. tests
 /tmp
