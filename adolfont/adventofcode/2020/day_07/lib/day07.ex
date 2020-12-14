@@ -1,6 +1,6 @@
 defmodule Day07 do
   @moduledoc """
-  Advent of Code 2020 - Day 07 - Handy Haversacks 
+  Advent of Code 2020 - Day 07 - Handy Haversacks
   https://adventofcode.com/2020/day/7
   """
 
@@ -31,7 +31,6 @@ defmodule Day07 do
     Enum.join([first, second], " ")
   end
 
-
   def process_set_of_rules(rules) do
     rules
     |> String.split("\n", trim: true)
@@ -40,13 +39,27 @@ defmodule Day07 do
   end
 
   def can_contain(color, rules) do
-    do_can_contain(color, process_set_of_rules(rules). 0)
+    do_can_contain(color, process_set_of_rules(rules), 0, [])
+    |> Enum.uniq()
+    |> Enum.sort()
   end
 
-  defp do_can_contain(color, [], total) do
+  defp do_can_contain(_color, rules, current_position, total)
+       when current_position == length(rules) do
     total
   end
-  defp do_can_contain(color, [head_rule | tail_rules], total) do
-    total + 
+
+  defp do_can_contain(color, rules, current_position, total) do
+    total ++
+      can_contain_recursively(color, Enum.at(rules, current_position), rules) ++
+      do_can_contain(color, rules, current_position + 1, total)
+  end
+
+  defp can_contain_recursively(color, {color, _number, container_color}, rules) do
+    [container_color] ++ do_can_contain(container_color, rules, 0, [])
+  end
+
+  defp can_contain_recursively(_color, _head_rule, _tail_rules) do
+    []
   end
 end
