@@ -4,6 +4,12 @@ defmodule Day07 do
   https://adventofcode.com/2020/day/7
   """
 
+  @doc """
+  Parses a string that describes as rule as a list of tuples where:
+  {contained_bag, number, container_bag} meaning that
+   container_bag can contain a number of contained_bag
+
+  """
   def parse_rule(string) do
     [first, second | rest] = String.split(string, " ")
     rest = rest |> Enum.join(" ")
@@ -22,7 +28,7 @@ defmodule Day07 do
     |> Enum.map(&process_second_part(&1, first_color))
   end
 
-  def process_second_part(string, first_color) do
+  defp process_second_part(string, first_color) do
     [num, second_color_1, second_color_2 | _] = String.split(string, " ")
     {restore_color(second_color_1, second_color_2), String.to_integer(num), first_color}
   end
@@ -31,6 +37,11 @@ defmodule Day07 do
     Enum.join([first, second], " ")
   end
 
+  @spec process_set_of_rules(binary) :: [{binary, integer(), binary}]
+  @doc """
+  Converts a long string that contains the description of rules into a list of tuples.
+  See Task 1 of https://adventofcode.com/2020/day/7
+  """
   def process_set_of_rules(rules) do
     rules
     |> String.split("\n", trim: true)
@@ -38,6 +49,13 @@ defmodule Day07 do
     |> List.flatten()
   end
 
+  @spec can_contain(binary, binary) :: [binary]
+  @doc """
+  Given the color of a bag 1 (a string) and a set of rules (also a string), returns the names of the colors the bags
+  that can contain bag 1.
+
+  See Task 1 of https://adventofcode.com/2020/day/7
+  """
   def can_contain(color, rules) do
     do_can_contain(color, process_set_of_rules(rules), 0, [])
     |> Enum.map(fn {x, _y} -> x end)
@@ -64,6 +82,13 @@ defmodule Day07 do
     []
   end
 
+  @spec must_contain(binary, binary) :: number
+  @doc """
+  Given the color of a bag (a string) and a set of rules (also a string), returns the number of bags
+  that a bag must contain.
+
+  See Task 2 of https://adventofcode.com/2020/day/7
+  """
   def must_contain(color, rules) do
     rules
     |> process_set_of_rules()
