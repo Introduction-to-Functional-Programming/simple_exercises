@@ -20,7 +20,7 @@ defmodule Day07Test do
 
   # than from color_x, find transitively the other colors
 
-  test "parse rules" do
+  test "tests for parse_rules/1" do
     rule_1 = "faded blue bags contain no other bags."
 
     assert parse_rule(rule_1) == [{"", 0, "faded blue"}]
@@ -107,6 +107,6 @@ defmodule Day07Test do
   test "Day 7 - Task 2 - Test with MY input file" do
     rules = File.read!("input.txt")
 
-    assert Day07.must_contain("shiny gold", rules) == 32
+    assert Day07.must_contain("shiny gold", rules) == 6260
   end
 end
