@@ -74,6 +74,17 @@ defmodule Day07Test do
     dotted black bags contain no other bags.
     """
 
-    assert Day07.can_contain("shiny gold", rules) == 4
+    assert Day07.can_contain("shiny gold", rules) == [
+             "bright white",
+             "dark orange",
+             "light red",
+             "muted yellow"
+           ]
+  end
+
+  test "Day 7 - Task 1 - Test with MY input file" do
+    rules = File.read!("input.txt")
+
+    assert length(Day07.can_contain("shiny gold", rules)) == 112
   end
 end
