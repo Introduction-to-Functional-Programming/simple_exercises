@@ -41,4 +41,10 @@ defmodule Day08Test do
 
     assert Day08.execute_instructions(instructions) == {:infinite_loop, 5}
   end
+
+  test "Task 1" do
+    instructions = File.read!("input.txt")
+
+    assert Day08.execute_instructions(instructions) == {:infinite_loop, 1939}
+  end
 end
