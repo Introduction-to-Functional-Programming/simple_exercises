@@ -27,7 +27,10 @@ defmodule Day08 do
     {:nop, String.to_integer(value)}
   end
 
-  def execute_instructions(instructions) do
+  def execute_instructions(instructions) when is_list(instructions) do
+    do_execute_instructions(instructions, 0, 0, [])
+  end
+    def execute_instructions(instructions) do
     parse_list_of_instructions_from_string(instructions)
     |> do_execute_instructions(0, 0, [])
   end
@@ -54,7 +57,7 @@ defmodule Day08 do
 
     cond do
       (current_instruction_index + offset) in executed_instructions ->
-        {:infinite_loop, new_acc}
+        {:infinite_loop, new_acc, current_instruction_index + offset, current_instruction}
 
       true ->
         do_execute_instructions(instructions, new_acc, current_instruction_index + offset, [
@@ -74,4 +77,13 @@ defmodule Day08 do
   def process_instruction({:jmp, value}, acc) do
     {value, acc}
   end
+
+  def change_instruction({:infinite_loop, _acc, instruction_index, instruction}, instructions) do
+    case instruction do
+      {:jmp, value} ->
+        List.replace_at(instructions, instruction_index,{:nop, value})
+    end
+
+  end
+
 end
