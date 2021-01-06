@@ -1,10 +1,6 @@
 # Atividade Final - Resumo das apresentações de Introdução à Programação Funcional
 
-Vídeos em https://youtu.be/1CVtezl4UNU
-
-<html>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/1CVtezl4UNU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</html>
+Vídeo em https://youtu.be/1CVtezl4UNU
 
 - Universidade Tecnológica Federal do Paraná
 - Aluno: Gabriel de Andrade Torelli
