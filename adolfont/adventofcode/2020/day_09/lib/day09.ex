@@ -130,8 +130,9 @@ defmodule Day09 do
     Enum.min(result) + Enum.max(result)
   end
 
-  # Two functions below adapted from
+  # Two functions below are from
   # https://github.com/gausby/aoc2020/blob/main/test/aoc2020/day_09_test.exs
+  # the comments are mine (adolfont)
   defp scan_for_window(numbers, target) do
     initial_state = {:queue.new(), 0, target}
 
@@ -143,6 +144,7 @@ defmodule Day09 do
 
   defp do_scan(value, {window, sum, target}) do
     case value do
+      # Great idea: using an anonymous variable as documentation
       _target_found when target == value + sum ->
         result = :queue.to_list(:queue.in(value, window))
         {:halt, {:ok, result}}
@@ -153,6 +155,8 @@ defmodule Day09 do
 
       _shrink_window_and_retry_value when target < value + sum ->
         {{:value, leaving}, window} = :queue.out(window)
+        # this is brilliant
+        # the reduce_while function is recursive
         do_scan(value, {window, sum - leaving, target})
     end
   end
