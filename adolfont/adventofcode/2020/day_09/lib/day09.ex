@@ -59,4 +59,95 @@ defmodule Day09 do
       last_number
     end
   end
+
+  # Task 1 from Martin Gausby
+  # https://github.com/gausby/aoc2020/blob/main/test/aoc2020/day_09_test.exs
+
+  def checksum([_ | remaining] = list, preamble_length) do
+    # gets the preamble (a list of numbers)
+    # and the first number after the preamble
+    {preamble, [number | _]} = Enum.split(list, preamble_length)
+
+    # if do_checksum returns :ok, call checksum recursively
+    # with the remaining numbers (all but the first)
+    # otherwise, returns an error.
+    case do_checksum(preamble, number) do
+      :found ->
+        checksum(remaining, preamble_length)
+
+      {:error, {:invalid, _n}} = error ->
+        error
+    end
+  end
+
+  # if the number is equal to the sum
+  # of two numbers from the preamble (a list of numbers)
+  # returns :ok
+  # otherwise, retuns an error
+  defp do_checksum([_], number), do: {:error, {:invalid, number}}
+
+  defp do_checksum([first_element | [_ | _] = rest], number) do
+    # great pattern matching above!
+
+    # this is a bit strange because it is a kind of double negation
+
+    #  let rest = [r1, r2, r3, ..., rn]
+    #  The result of the Enum.drop_while/2 below is
+    # [r1, r2, ..., ri]
+    # such that
+    # for all j<=i
+    # rj + first_element != number
+    # So, an empty list returned means that
+    # there are no element of rest such that number is equal
+
+    # while the sum of the first element with another element is DIFFERENT
+    # from the number that we want to be the sum of two numbers from
+    # the preamble,
+
+    case find_first_element_with_property_X(rest, number, first_element) do
+      :not_found ->
+        do_checksum(rest, number)
+
+      :found ->
+        :found
+    end
+  end
+
+  def find_first_element_with_property_X(rest, number, first_element) do
+    do_find_first_element_with_property_X(
+      rest,
+      fn an_element ->
+        checks_if_number_equals_to_sum_of_two_elements_of_preamble(
+          number,
+          first_element,
+          an_element
+        )
+      end
+    )
+  end
+
+  defp checks_if_number_equals_to_sum_of_two_elements_of_preamble(number, element1, element2) do
+    number == element1 + element2
+  end
+
+  # Enum.drop_while "drops elements at the beginning of the"
+  # "enumerable while fun returns a truthy value."
+  # Enum.drop_while([1, 2, 3, 2, 1], fn x -> x < 4 end)
+  # []
+
+  # do_find_first_element_with_property_X/2 started as
+  # a reimplementation of Enum.drop_while/2
+  # returning different values
+  # but now it is different as it needs a function with a different polarity
+
+  defp do_find_first_element_with_property_X([], _function) do
+    :not_found
+  end
+
+  defp do_find_first_element_with_property_X([head | tail], function) do
+    case function.(head) do
+      true -> :found
+      _ -> do_find_first_element_with_property_X(tail, function)
+    end
+  end
 end
