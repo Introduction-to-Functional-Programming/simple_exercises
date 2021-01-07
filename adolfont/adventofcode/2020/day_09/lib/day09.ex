@@ -60,7 +60,7 @@ defmodule Day09 do
     end
   end
 
-  # Task 1 from Martin Gausby
+  # Task 1 adpated from Martin Gausby's Task 1 in
   # https://github.com/gausby/aoc2020/blob/main/test/aoc2020/day_09_test.exs
 
   def checksum([_ | remaining] = list, preamble_length) do
@@ -80,30 +80,9 @@ defmodule Day09 do
     end
   end
 
-  # if the number is equal to the sum
-  # of two numbers from the preamble (a list of numbers)
-  # returns :ok
-  # otherwise, retuns an error
   defp do_checksum([_], number), do: {:error, {:invalid, number}}
 
   defp do_checksum([first_element | [_ | _] = rest], number) do
-    # great pattern matching above!
-
-    # this is a bit strange because it is a kind of double negation
-
-    #  let rest = [r1, r2, r3, ..., rn]
-    #  The result of the Enum.drop_while/2 below is
-    # [r1, r2, ..., ri]
-    # such that
-    # for all j<=i
-    # rj + first_element != number
-    # So, an empty list returned means that
-    # there are no element of rest such that number is equal
-
-    # while the sum of the first element with another element is DIFFERENT
-    # from the number that we want to be the sum of two numbers from
-    # the preamble,
-
     case find_first_element_with_property_X(rest, number, first_element) do
       :not_found ->
         do_checksum(rest, number)
@@ -113,7 +92,7 @@ defmodule Day09 do
     end
   end
 
-  def find_first_element_with_property_X(rest, number, first_element) do
+  defp find_first_element_with_property_X(rest, number, first_element) do
     do_find_first_element_with_property_X(
       rest,
       fn an_element ->
@@ -130,16 +109,6 @@ defmodule Day09 do
     number == element1 + element2
   end
 
-  # Enum.drop_while "drops elements at the beginning of the"
-  # "enumerable while fun returns a truthy value."
-  # Enum.drop_while([1, 2, 3, 2, 1], fn x -> x < 4 end)
-  # []
-
-  # do_find_first_element_with_property_X/2 started as
-  # a reimplementation of Enum.drop_while/2
-  # returning different values
-  # but now it is different as it needs a function with a different polarity
-
   defp do_find_first_element_with_property_X([], _function) do
     :not_found
   end
@@ -148,6 +117,43 @@ defmodule Day09 do
     case function.(head) do
       true -> :found
       _ -> do_find_first_element_with_property_X(tail, function)
+    end
+  end
+
+  # TASK 2
+  def find_contiguous_set_which_sums_to(list, preamble_length) do
+    scan_for_window(list, task1(list, preamble_length))
+  end
+
+  def find_encryption_weakness(list, preamble_length) do
+    {:ok, result} = find_contiguous_set_which_sums_to(list, preamble_length)
+    Enum.min(result) + Enum.max(result)
+  end
+
+  # Two functions below adapted from
+  # https://github.com/gausby/aoc2020/blob/main/test/aoc2020/day_09_test.exs
+  defp scan_for_window(numbers, target) do
+    initial_state = {:queue.new(), 0, target}
+
+    case Enum.reduce_while(numbers, initial_state, &do_scan/2) do
+      {:ok, [_ | _]} = success -> success
+      {_window, _sum, _target} -> {:error, :not_found}
+    end
+  end
+
+  defp do_scan(value, {window, sum, target}) do
+    case value do
+      _target_found when target == value + sum ->
+        result = :queue.to_list(:queue.in(value, window))
+        {:halt, {:ok, result}}
+
+      _grow_window when target > value + sum ->
+        window = :queue.in(value, window)
+        {:cont, {window, sum + value, target}}
+
+      _shrink_window_and_retry_value when target < value + sum ->
+        {{:value, leaving}, window} = :queue.out(window)
+        do_scan(value, {window, sum - leaving, target})
     end
   end
 end
